@@ -36,7 +36,16 @@ go mod tidy
 ```
 This cleans up the go.mod and go.sum with packages that are not used
 
-
+## Local packages import
+```
+repo/
+├── go.mod      <<<<< Note go.mod is located in repo root
+├── pkg1
+│   └── pkg1.go
+└── pkg2
+    └── pkg1.go
+```
+Then pkg1 would import its peer package as import "repo/pkg2". Note that you cannot use relative import paths like import "../pkg2" or import "./subpkg"
 
 
 
