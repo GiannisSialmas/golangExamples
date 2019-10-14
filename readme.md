@@ -15,7 +15,7 @@ go get <package-name>
 will fetch that package and add it to go.mod file with an exact version.
 If the package exists in your go.mod file, **it will be updated to the latest version**
 
-## Fetch dependencies
+## Fetch all dependencies
 ```
 go get
 ```
@@ -30,20 +30,11 @@ go list -m all
 This will output a list with go modules installed in your project.
 **A better solution would be to look at your go.sum file**
 
-
-
-## Build the project
+## Remove unused dependencies 
 ```
-go build
+go mod tidy
 ```
-
-
-
-
-
-
-
-
+This cleans up the go.mod and go.sum with packages that are not used
 
 
 
