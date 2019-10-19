@@ -14,14 +14,13 @@ go get <package-name>
 ```
 will fetch that package and add it to go.mod file with an exact version.
 If the package exists in your go.mod file, **it will be updated to the latest version**
+Only direct dependencies are recorded in the go.mod file
 
 ## Fetch all dependencies
 ```
-go get
+go mod download
 ```
-This will fetch all dependencies for a project
-When it encounters an import of a package not provided by any module in go.mod, the go command automatically looks up the module containing that package and adds it to go.mod, using the latest version.
-Only direct dependencies are recorded in the go.mod file
+This will fetch all dependencies that are listed in go.mod and go.sum
 
 ## List all dependencies (Direct and Indirect)
 ```

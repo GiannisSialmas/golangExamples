@@ -13,3 +13,7 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=password
       volumes:
         - ${PWD}/servers.json:/pgadmin4/servers.json
+  go:
+    image: battlesable/chinook:postgres-10
+    ports:
+      - "5432:5432"
