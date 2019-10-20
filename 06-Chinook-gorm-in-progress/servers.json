@@ -2,12 +2,12 @@
     "Servers": {
         "1": {
             "Name": "Localhost Docker Postgres",
-            "Group": "Servers",
+            "Group": "Docker",
             "Port": 5432,
             "Username": "postgres",
             "SSLMode": "prefer",
             "Host": "chinook",
-            "MaintenanceDB": "postgres"
+            "MaintenanceDB": "chinook"
         }
     }
 }

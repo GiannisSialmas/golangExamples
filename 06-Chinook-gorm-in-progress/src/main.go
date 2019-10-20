@@ -1,54 +1,94 @@
 package main
 
-// We are importing the package so that it can register its drivers with the database/sql package, and we use the _ identifier
-// to tell Go that we still want this included even though we will never directly reference the package in our code.
 import (
-	"database/sql"
+	"encoding/json"
 	"fmt"
 	"log"
-
-	_ "github.com/lib/pq"
+	"os"
+	
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
+	. "05-chinook-gorm/models"
 )
 
-const (
-	host     = "127.0.0.1"
-	port     = 5432
-	user     = "postgres"
-	password = "chinook"
-	dbname   = "postgres"
-)
+// Define the gorm basic model
+// type Model struct {
+// 	ID        uint `gorm:"primary_key"`
+// 	CreatedAt time.Time
+// 	UpdatedAt time.Time
+// 	DeletedAt *time.Time
+// }
+
+var port = 5432
+var host = os.Getenv("DB_HOST")
+var user = os.Getenv("DB_USER")
+var password = os.Getenv("DB_PASSWORD")
+var dbname = os.Getenv("DB")
+
+func init() {
+	log.Println("Program initialazing")
+}
 
 func check(error interface{}) {
 	if error != nil {
 		log.Fatal(error)
-		panic(error)
 	}
+}
+
+func PrettyPrint(v interface{}) (err error) {
+	b, err := json.MarshalIndent(v, "", "  ")
+	if err == nil {
+			fmt.Println(string(b))
+	}
+	return
 }
 
 func main() {
 
 	connStr := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 
-	db, err := sql.Open("postgres", connStr)
+	db, err := gorm.Open("postgres", connStr)
 	check(err)
 	defer db.Close()
+	db.SingularTable(true)
 
-	err = db.Ping()
-	check(err)
-	fmt.Println("Database ping succesfull")
+	// fmt.Println("**********************************************************************************************************************************************")
+	// var artist Artist
 
-	rows, err := db.Query("SELECT employee_id,first_name FROM employee")
-	check(err)
-	defer rows.Close()
-	for rows.Next() {
-		var employee_id int
-		var first_name string
-		err = rows.Scan(&employee_id, &first_name)
-		if err != nil {
-			// handle this error
-			panic(err)
-		}
-		fmt.Println(employee_id, first_name)
-	}
+	// db.Preload("Albums.Title").First(&artist)
+	// // db.First(&artist)
+	// fmt.Println(artist)
+
+	// fmt.Println("**********************************************************************************************************************************************")
+	// var album Album
+
+	// // db.Preload("Artist").First(&album)
+	// db.First(&album)
+	// fmt.Println(album)
+
+	// fmt.Println("INVOICE*****************************************************************************************************************************************")
+	// var invoice Invoice
+	
+	// // db.First(&invoice)
+	// db.Preload("InvoiceLines").Take(&invoice)
+	// PrettyPrint(invoice)
+
+	// fmt.Println("INVOICELISTS*************************************************************************************************************************************")
+	// var invoiceLine InvoiceLine
+	
+	// // db.First(&invoiceLine)
+	// db.Preload("Invoice").Take(&invoiceLine)
+	// PrettyPrint(invoiceLine)
+
+	// log.Print("Program completed without a problem")
+
+	fmt.Println("Customer*****************************************************************************************************************************************")
+	var customer Customer
+	
+	// db.First(&Customer)
+	db.Preload("Invoices.InvoiceLines").Take(&customer)
+	PrettyPrint(customer)
+
+
 
 }

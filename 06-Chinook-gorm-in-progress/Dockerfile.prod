@@ -16,4 +16,13 @@ RUN go mod download
 
 # Copy and build the app
 COPY src/ .
-CMD ["go", "run", "main.go"] 
+RUN go build -ldflags="-w -s" -o ./main ./main.go
+
+#The certificates are needed cause scratch will keep giving "x509: certificate signed by unknown authority" on http requests
+RUN apk --no-cache add ca-certificates  
+
+
+FROM scratch
+COPY --from=build /app/main /
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+CMD ["./main"]  
