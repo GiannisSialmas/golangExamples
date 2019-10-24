@@ -4,35 +4,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"os"
 	
-	"github.com/jinzhu/gorm"
+	// "github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
-	. "05-chinook-gorm/models"
+	"06-chinook-gorm/models"
 )
-
-// Define the gorm basic model
-// type Model struct {
-// 	ID        uint `gorm:"primary_key"`
-// 	CreatedAt time.Time
-// 	UpdatedAt time.Time
-// 	DeletedAt *time.Time
-// }
-
-var port = 5432
-var host = os.Getenv("DB_HOST")
-var user = os.Getenv("DB_USER")
-var password = os.Getenv("DB_PASSWORD")
-var dbname = os.Getenv("DB")
 
 func init() {
 	log.Println("Program initialazing")
-}
-
-func check(error interface{}) {
-	if error != nil {
-		log.Fatal(error)
-	}
 }
 
 func PrettyPrint(v interface{}) (err error) {
@@ -43,14 +22,23 @@ func PrettyPrint(v interface{}) (err error) {
 	return
 }
 
+func PrintJsonShort(v interface{}) (err error) {
+	b, err := json.Marshal(v)
+	if err == nil {
+		fmt.Println(string(b))
+	}
+	return
+}
+
+
 func main() {
 
-	connStr := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+	// connStr := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 
-	db, err := gorm.Open("postgres", connStr)
-	check(err)
-	defer db.Close()
-	db.SingularTable(true)
+	// db, err := gorm.Open("postgres", connStr)
+	// check(err)
+	// defer db.Close()
+	// db.SingularTable(true)
 
 	// fmt.Println("**********************************************************************************************************************************************")
 	// var artist Artist
@@ -82,13 +70,16 @@ func main() {
 
 	// log.Print("Program completed without a problem")
 
-	fmt.Println("Customer*****************************************************************************************************************************************")
-	var customer Customer
+	// fmt.Println("Customer*****************************************************************************************************************************************")
+	// var customer models.Customer
 	
-	// db.First(&Customer)
-	db.Preload("Invoices.InvoiceLines").Take(&customer)
-	PrettyPrint(customer)
+	// // db.First(&Customer)
+	// db.Preload("Invoices.InvoiceLines").First(&customer)
+	// PrettyPrint(customer)
 
+	customer := models.CustomerInvoicesInvoiceItems(2)
+	PrintJsonShort(customer)
+	// PrettyPrint(customer)
 
 
 }

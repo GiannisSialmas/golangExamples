@@ -58,4 +58,3 @@ Protocol Buffes utilize binary serialization, which means that they encode the d
 The de/serialization process uses a predetermined schema to encode/decode the data. In the schema, you can define the data type of a field, if it is optional, etc. So you dont have to bake the validation inside your application logic.
 Also due to the fact that the messages are of binary format, it is less intensive for the cpu to de/serialize the message, which can be a good thing for mobile devices for example. 
 
-

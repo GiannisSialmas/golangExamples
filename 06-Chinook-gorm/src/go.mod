@@ -1,4 +1,4 @@
-module 05-chinook-gorm
+module 06-chinook-gorm
 
 go 1.13
 
