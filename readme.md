@@ -46,8 +46,11 @@ repo/
 ```
 Then pkg1 would import its peer package as import "repo/pkg2". Note that you cannot use relative import paths like import "../pkg2" or import "./subpkg"
 
-
-
+## Test
+```go
+go test ./ ...
+```
+Look or tests in current and **all** subdirectories
 
 
 ## Protocol Buffers
