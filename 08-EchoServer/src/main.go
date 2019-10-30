@@ -19,7 +19,7 @@ func getListenAdress() string {
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
-		fmt.Println("Defaulting to port %s", port)
+		fmt.Printf("Defaulting to port %s", port)
 	}
 	_, err := strconv.Atoi(port)
 	if err != nil {

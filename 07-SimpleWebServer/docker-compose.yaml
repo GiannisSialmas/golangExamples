@@ -1,0 +1,14 @@
+version: '3'
+services:
+
+  # If you want to test the application in docker and not on localhost
+  # IMO this should be done in the latest stages of the project
+  go:
+    build:
+        context: src
+        dockerfile: docker/Dockerfile
+    ports:
+      - 80:80
+    environment:
+      - PORT=80
+      - BIND_INTERFACE=lo
