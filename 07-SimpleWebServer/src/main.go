@@ -30,7 +30,9 @@ func main() {
 	go gracefullShutdown(server, logger, quit, done)
 
 	logger.Println("Listening to", listenAdress)
-	log.Fatal(http.ListenAndServe(listenAdress, nil))
+	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		logger.Fatalf("Could not listen on %s: %v\n", listenAdress, err)
+	}
 
 	// Deadlock until server is stopped
 	<-done
@@ -79,18 +81,21 @@ func newWebserver(logger *log.Logger) *http.Server {
 		w.WriteHeader(http.StatusOK)
 		io.WriteString(w, "This is the / path\n")
 	})
-	// router.HandleFunc("/health/liveness", func(w http.ResponseWriter, r *http.Request) {
-	// 	w.WriteHeader(http.StatusOK)
-	// 	io.WriteString(w, "Healthy\n")
-	// })
-	// router.HandleFunc("/health/readiness", func(w http.ResponseWriter, r *http.Request) {
-	// 	w.WriteHeader(http.StatusOK)
-	// 	io.WriteString(w, "Ready\n")
-	// })
+	router.HandleFunc("/health/liveness", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		io.WriteString(w, "Healthy\n")
+	})
+	router.HandleFunc("/health/readiness", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		io.WriteString(w, "Ready\n")
+	})
 	return &http.Server{
-		Addr:     listenAdress,
-		Handler:  router,
-		ErrorLog: logger,
+		Addr:         listenAdress,
+		Handler:      router,
+		ErrorLog:     logger,
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  15 * time.Second,
 	}
 }
 
