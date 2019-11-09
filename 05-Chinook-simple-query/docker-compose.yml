@@ -1,7 +1,7 @@
 version: '3'
 services:
   chinook:
-    image: battlesable/chinook:postgres-10
+    image: battlesable/chinook:postgres-10-alpine
     ports:
       - "5432:5432"
   pg-admin:

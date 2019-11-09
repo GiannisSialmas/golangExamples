@@ -19,8 +19,8 @@ func main() {
 	listenAdress = getListenAdress()
 
 	//channels to handle gracefull shutdown
-	done := make(chan bool, 1)
-	quit := make(chan os.Signal, 1)
+	done := make(chan bool)
+	quit := make(chan os.Signal)
 	signal.Notify(quit, os.Interrupt)
 
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
