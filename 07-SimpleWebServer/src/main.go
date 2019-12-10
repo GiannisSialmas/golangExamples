@@ -89,13 +89,17 @@ func newWebserver(logger *log.Logger) *http.Server {
 		w.WriteHeader(http.StatusOK)
 		io.WriteString(w, "Ready\n")
 	})
+	// IdleTimeout is the maximum amount of time to wait for the
+	// next request when keep-alives are enabled. If IdleTimeout
+	// is zero, the value of ReadTimeout is used. If both are
+	// zero, there is no timeout.
 	return &http.Server{
 		Addr:         listenAdress,
 		Handler:      router,
 		ErrorLog:     logger,
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
-		IdleTimeout:  15 * time.Second,
+		IdleTimeout:  15 * time.Second, 
 	}
 }
 
