@@ -23,3 +23,30 @@ Showing top 5 nodes out of 30
 
 Goroutines spend most of their time with **runtime.gopark** which is fine, because it’s the goroutine 
 scheduler. So this is kinda what we expected, we have no problem here.
+
+# CPU Profiling
+```
+go tool pprof http://127.0.0.1:8080/debug/pprof/profile
+```
+
+# Heap profiling
+```
+go tool pprof http://127.0.0.1:8080/debug/pprof/heap
+```
+-alloc_object
+
+
+???
+-inuse_space — amount of memory allocated and not released yet
+-inuse_object s— amount of objects allocated and not released yet
+-alloc_space — total amount of memory allocated (regardless of released)
+-alloc_objects — total amount of objects allocated (regardless of released)
+???
+
+# Block profile
+```
+go tool pprof http://127.0.0.1:8080/debug/pprof/block
+```
+
+# Escape analysis
+`go build -gcflags=-m -o main main.go` to see which objects escape to the heap 
