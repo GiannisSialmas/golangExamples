@@ -1,3 +1,19 @@
+# Tips
+
+## Get values from environment
+Use os.LookupEnv instead of os.Getenv
+
+```go
+func LookupEnv(key string) (string, bool)
+```
+```go
+func Getenv(key string) string
+```
+
+os.Getenv("XXX") retrieves the value of the environment variable named by the key. It returns the value, which will be empty if the variable is not present. LookupEnv retrieves the value of the environment variable named by the key. If the variable is present in the environment the value (which may be empty) is returned and the boolean is true. Otherwise the returned value will be empty and the boolean will be false.
+
+
+
 Good examples at https://gobyexample.com
 
 # Introduction 
