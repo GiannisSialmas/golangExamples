@@ -8,7 +8,10 @@ import (
 )
 
 func getListenAdress() string {
-	port := os.Getenv("PORT")
+	if port, ok := os.LookupEnv("PORT"); !ok {
+		 log.Fatalf("No port given")
+	}
+	
 	_, err := strconv.Atoi(port)
 	if err != nil {
 		log.Fatalf("Invalid port", port)
