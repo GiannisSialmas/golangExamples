@@ -35,14 +35,3 @@ If if the key you ask from the map does not exist, instead of an error you will 
 ```go
 delete(m, "James")
 ```
-
-## Ananymous Structs
-```go
-data := struct {
-    Title string
-    Users []*User
-}{
-    title,
-    users,
-}
-```

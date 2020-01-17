@@ -7,7 +7,7 @@ a := "hello"
 fmt.Println(a)  //a
 fmt.Println(&a) // 0x1040a124
 ```
-## Dereference adres
+## Dereference adress
 Use *var to get the value of a pointer
 ```go
 a := "hello"
